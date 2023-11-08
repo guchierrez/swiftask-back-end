@@ -1,16 +1,30 @@
-FROM ubuntu:latest AS build
+# Use an official Maven image as the build stage
+FROM maven:3.8.4-openjdk-17 AS build
 
-RUN apt-get update
-RUN apt-get install openjdk-17-jdk -y
-COPY . .
+# Set the working directory to /app
+WORKDIR /app
 
-RUN apt-get install maven -y
-RUN mvn clean install
+# Copy the POM file and build dependencies
+COPY pom.xml .
+RUN mvn dependency:go-offline
 
+# Copy the project source code
+COPY src src/
+
+# Build the JAR file
+RUN mvn package
+
+# Create the final image based on OpenJDK
 FROM openjdk:17-jdk-slim
 
+# Set the working directory to /app
+WORKDIR /app
+
+# Expose the port your application will run on
 EXPOSE 8080
 
-COPY --from=build /target/todocrud-0.0.1-SNAPSHOT.jar app.jar
+# Copy the JAR file from the build stage
+COPY --from=build /app/target/todocrud-0.0.1-SNAPSHOT.jar app.jar
 
-ENTRYPOINT [ "java", "-jar", "app.jar" ]
+# Command to run your application
+CMD ["java", "-jar", "app.jar"]
