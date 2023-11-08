@@ -1,6 +1,6 @@
 # Todo List REST API
 
-This Spring Boot project is a RESTful API for managing a todo list. It provides Create, Read, Update, and Delete (CRUD) operations for todos through the following endpoints.
+This Spring Boot project is a RESTful API with an integrated database for managing a todo list. It provides Create, Read, Update, and Delete (CRUD) operations for todos through the following endpoints.
 
 - **GET** `/todos`: Retrieve a list of all todos.
 - **POST** `/todos`: Create a new todo.
