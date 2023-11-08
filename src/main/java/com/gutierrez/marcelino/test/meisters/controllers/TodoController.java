@@ -4,6 +4,7 @@ import com.gutierrez.marcelino.test.meisters.domain.todo.RequestTodo;
 import com.gutierrez.marcelino.test.meisters.domain.todo.RequestTodoUpdate;
 import com.gutierrez.marcelino.test.meisters.domain.todo.Todo;
 import com.gutierrez.marcelino.test.meisters.domain.todo.TodoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,13 +42,19 @@ public class TodoController {
         todo.setTitle(data.title());
         todo.setCompleted(data.completed());
         return ResponseEntity.ok(todo);
+        } else {
+            throw new EntityNotFoundException();
         }
-        return ResponseEntity.notFound().build();
-    }
+        }
 
-    @DeleteMapping("/{id")
+    @DeleteMapping("/{id}")
     public ResponseEntity deleteTodo(@PathVariable String id) {
-        repository.deleteById(id);
+        Optional<Todo> optionalTodo = repository.findById(id);
+        if (optionalTodo.isPresent()) {
+            repository.deleteById(id);
         return ResponseEntity.noContent().build();
+        } else {
+            throw new EntityNotFoundException();
+        }
     }
 }
