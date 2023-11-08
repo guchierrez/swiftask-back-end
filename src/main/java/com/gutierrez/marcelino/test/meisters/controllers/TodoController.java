@@ -35,18 +35,30 @@ public class TodoController {
 
     @PatchMapping("/{id}")
     @Transactional
-    public ResponseEntity updateTodo(@PathVariable String id, @RequestBody @Valid RequestTodoUpdate data) {
+    public ResponseEntity updateTodo(@PathVariable String id, @RequestBody RequestTodoUpdate data) {
         Optional<Todo> optionalTodo = repository.findById(id);
+
         if (optionalTodo.isPresent()) {
-        Todo todo = optionalTodo.get();
-        todo.setDescription(data.description());
-        todo.setTitle(data.title());
-        todo.setCompleted(data.completed());
-        return ResponseEntity.ok(todo);
+            Todo todo = optionalTodo.get();
+
+            // Check if the 'title' field is provided and update it if not null
+            if (data.title() != null) {
+                todo.setTitle(data.title());
+            }
+
+            // Check if the 'description' field is provided and update it if not null
+            if (data.description() != null) {
+                todo.setDescription(data.description());
+            }
+
+                todo.setCompleted(data.completed());
+
+            repository.save(todo);
+            return ResponseEntity.ok(todo);
         } else {
             throw new EntityNotFoundException();
         }
-        }
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteTodo(@PathVariable String id) {
