@@ -1,7 +1,7 @@
 # Use an official Maven image as the build stage
 FROM maven:3.8.4-openjdk-17 AS build
 
-# Set the working directory to /app
+# Set the working directory in the container
 WORKDIR /app
 
 # Copy the POM file and build dependencies
@@ -17,7 +17,7 @@ RUN mvn package
 # Create the final image based on OpenJDK
 FROM openjdk:17-jdk-slim
 
-# Set the working directory to /app
+# Set the working directory in the container
 WORKDIR /app
 
 # Expose the port your application will run on
