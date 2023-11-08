@@ -35,7 +35,7 @@ public class TodoController {
 
     @PatchMapping("/{id}")
     @Transactional
-    public ResponseEntity updateTodo(@PathVariable String id, @RequestBody @Valid RequestTodo data) {
+    public ResponseEntity updateTodo(@PathVariable String id, @RequestBody @Valid RequestTodoUpdate data) {
         Optional<Todo> optionalTodo = repository.findById(id);
         if (optionalTodo.isPresent()) {
         Todo todo = optionalTodo.get();
