@@ -15,6 +15,9 @@ public class Todo {
     @Column(length = 150, nullable = false)
     private String description;
 
+    @Column()
+    private boolean completed;
+
     public Todo(String name, String description) {
         this.name = name;
         this.description = description;
@@ -55,6 +58,8 @@ public class Todo {
         this.completed = completed;
     }
 
-    @Column()
-    private boolean completed;
+    public String toString() {
+        return "ID: " + this.getId() + "\nName: " + this.getName();
+    }
+
 }
