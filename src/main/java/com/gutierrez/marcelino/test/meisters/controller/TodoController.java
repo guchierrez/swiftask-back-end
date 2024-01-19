@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("todos")
+@RequestMapping("/todos")
 @CrossOrigin
 public class TodoController {
     private final TodoService todoService;
