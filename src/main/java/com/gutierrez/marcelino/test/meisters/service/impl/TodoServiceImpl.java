@@ -25,8 +25,10 @@ public class TodoServiceImpl implements TodoService {
         }
 
         final Todo newTodo = new Todo(todoData.getName(), todoData.getDescription());
+        System.out.println(todoData);
 
         return todoRepository.save(newTodo);
+
     }
 
     public List<Todo> readTodos() {
@@ -34,17 +36,18 @@ public class TodoServiceImpl implements TodoService {
     }
 
     public Todo updateTodo(TodoDTO todoData, final long id) {
-        final Todo foundTodo = todoRepository.findById(id).orElseThrow(() -> new AppException("User not found", HttpStatus.NOT_FOUND));
+        final Todo foundTodo = todoRepository.findById(id).orElseThrow(() -> new AppException("To do not found", HttpStatus.NOT_FOUND));
 
-        foundTodo.setName(todoData.getName());
-        foundTodo.setDescription(todoData.getDescription());
+        foundTodo.setName((todoData.getName() == null) ? foundTodo.getName() : todoData.getName());
+        foundTodo.setDescription((todoData.getDescription() == null) ? foundTodo.getDescription() : todoData.getDescription());
+
         foundTodo.setCompleted(todoData.isCompleted());
 
         return todoRepository.save(foundTodo);
     }
 
     public void deleteTodo(final Long id) {
-        final Todo foundTodo = todoRepository.findById(id).orElseThrow(() -> new AppException("User not found", HttpStatus.NOT_FOUND));
+        final Todo foundTodo = todoRepository.findById(id).orElseThrow(() -> new AppException("To do not found", HttpStatus.NOT_FOUND));
         todoRepository.delete(foundTodo);
     }
 }
