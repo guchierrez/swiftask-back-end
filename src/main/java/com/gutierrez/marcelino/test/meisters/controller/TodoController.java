@@ -3,6 +3,9 @@ package com.gutierrez.marcelino.test.meisters.controller;
 import com.gutierrez.marcelino.test.meisters.dto.TodoDTO;
 import com.gutierrez.marcelino.test.meisters.model.Todo;
 import com.gutierrez.marcelino.test.meisters.service.TodoService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +23,7 @@ public class TodoController {
     }
 
     @PostMapping
-    public ResponseEntity<Todo> createTodo(@RequestBody final TodoDTO todoData) {
+    public ResponseEntity<Todo> createTodo(@Valid @RequestBody final TodoDTO todoData) {
         final Todo createdTodo = todoService.createTodo(todoData);
 
         return new ResponseEntity<>(createdTodo, HttpStatus.CREATED);
@@ -34,7 +37,7 @@ public class TodoController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Todo> updateUser(@RequestBody final TodoDTO todoData, @PathVariable String id){
+    public ResponseEntity<Todo> updateUser(@Valid @RequestBody final TodoDTO todoData, @PathVariable String id){
         final Todo updatedTodo = todoService.updateTodo(todoData, Long.parseLong(id));
 
         return new ResponseEntity<>(updatedTodo, HttpStatus.OK);
