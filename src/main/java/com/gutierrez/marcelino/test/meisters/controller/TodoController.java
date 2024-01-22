@@ -37,7 +37,7 @@ public class TodoController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Todo> updateUser(@Valid @RequestBody final TodoDTO todoData, @PathVariable String id){
+    public ResponseEntity<Todo> updateUser(@RequestBody final TodoDTO todoData, @PathVariable String id){
         final Todo updatedTodo = todoService.updateTodo(todoData, Long.parseLong(id));
 
         return new ResponseEntity<>(updatedTodo, HttpStatus.OK);
